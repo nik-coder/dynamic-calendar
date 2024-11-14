@@ -36,8 +36,8 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-/*const API_TOKEN = '5cbe12fb62f4941267d623499a2a4fd5948fd3ef'
-const BASE_URL = 'https://rateengine.ship.cars/v2/vehicles'*/
+const API_TOKEN = '5cbe12fb62f4941267d623499a2a4fd5948fd3ef'
+const BASE_URL = 'https://rateengine.ship.cars/v2/vehicles'
 
 const years = ref([])
 const makes = ref([])
@@ -49,12 +49,13 @@ const selectedModel = ref('')
 
 const headers = {
   'Accept': 'application/json',
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*'
 }
 
 async function fetchYears() {
   try {
-    const response = await axios.get(`https://rateengine.ship.cars/v2/vehicles/years/?token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef`, { headers })
+    const response = await axios.get(`${BASE_URL}/years/?token=${API_TOKEN}`, { headers })
     years.value = response.data
   } catch (error) {
     console.error('Error fetching years:', error)
@@ -64,7 +65,7 @@ async function fetchYears() {
 async function fetchMakes(year) {
   try {
     const response = await axios.get(
-      `https://rateengine.ship.cars/v2/vehicles/makes/?year={year}&token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef`,
+      `${BASE_URL}/makes/?year=${year}&token=${API_TOKEN}`,
       { headers }
     )
     makes.value = response.data
@@ -76,7 +77,7 @@ async function fetchMakes(year) {
 async function fetchModels(year, make) {
   try {
     const response = await axios.get(
-      `https://rateengine.ship.cars/v2/vehicles/models/?year={year}&make={make}&token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef`,
+      `${BASE_URL}/models/?year=${year}&make=${make}&token=${API_TOKEN}`,
       { headers }
     )
     models.value = response.data
